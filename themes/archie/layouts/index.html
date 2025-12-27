@@ -20,7 +20,7 @@
 					<h1 class="title">
 						<a href="{{ .RelPermalink }}">{{.Title}}</a>
 						{{ if and (.Params.tags) (gt (len .Params.tags) 0) }}
-						{{ $firstTag := index .Params.tags 0 }}
+						{{ $firstTag := lower (index .Params.tags 0) }}
 						<span class="tags-inline">
 							<a class="tag-chip" href="{{ "/tags/" | relLangURL }}{{ $firstTag | urlize }}">{{ $firstTag }}</a>
 						</span>
@@ -31,11 +31,10 @@
 						{{ $gh := .Params.author_github }}
 						{{ if $gh }}
 							{{ $user := replaceRE "^https?://(?:www\\.)?github.com/([^/]+)/?.*$" "$1" $gh }}
-							 · <a href="{{ $gh }}">{{ $user }}</a>
+								 · <a href="{{ $gh }}">{{ $user }}</a>
 						{{ end }}
 						{{ if .Draft }} <span class="draft-label">DRAFT</span> {{ end }}
 					</time>
-					<br>{{ template "partials/pagedescription.html" . }}
 					<a class="readmore" href="{{ .RelPermalink }}">Read more ⟶</a>
 				</section>
 				{{ end }}

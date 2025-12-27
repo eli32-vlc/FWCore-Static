@@ -1,7 +1,7 @@
-<div class="description">
-	{{ if isset .Params "description" }}
-	{{ .Description }}
-	{{ else }}
-	{{ .Summary }}&hellip;
-	{{ end }}
-</div>
+{{- /* Render description only when present; collapse whitespace to one line; no ellipsis. */ -}}
+{{- if isset .Params "description" -}}
+	{{- $plain := .Description | plainify | replaceRE "\\s+" " " | trim " \t\n\r" -}}
+	{{- if ne $plain "" -}}
+		<div class="description">{{- $plain -}}</div>
+	{{- end -}}
+{{- end -}}

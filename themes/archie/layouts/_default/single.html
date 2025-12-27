@@ -8,7 +8,7 @@
           <h1 class="title">
             {{ .Title }}
             {{ if and (.Params.tags) (gt (len .Params.tags) 0) }}
-            {{ $firstTag := index .Params.tags 0 }}
+            {{ $firstTag := lower (index .Params.tags 0) }}
             <span class="tags-inline">
               <a class="tag-chip" href="{{ "/tags/" | relLangURL }}{{ $firstTag | urlize }}">{{ $firstTag }}</a>
             </span>
