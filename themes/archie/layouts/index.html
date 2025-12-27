@@ -12,6 +12,8 @@
 					{{- end -}}
 				</div>
 				{{ $pages := where .Site.RegularPages "Type" "in" .Site.Params.mainSections }}
+				{{ $pages = sort $pages "Date" "desc" }}
+				{{ $pages = sort $pages "Params.pinned" "desc" }}
 				{{ $paginator := .Paginate (where $pages "Params.hidden" "ne" true) }}
 				{{ range $paginator.Pages }}
 				<section class="list-item">
@@ -24,7 +26,15 @@
 						</span>
 						{{ end }}
 					</h1>
-					<time>{{ dateFormat ":date_medium" .Date }}{{ if .Draft }} <span class="draft-label">DRAFT</span> {{ end }}</time>
+					<time>
+						{{ dateFormat ":date_medium" .Date }}
+						{{ $gh := .Params.author_github }}
+						{{ if $gh }}
+							{{ $user := replaceRE "^https?://(?:www\\.)?github.com/([^/]+)/?.*$" "$1" $gh }}
+							 · <a href="{{ $gh }}">{{ $user }}</a>
+						{{ end }}
+						{{ if .Draft }} <span class="draft-label">DRAFT</span> {{ end }}
+					</time>
 					<br>{{ template "partials/pagedescription.html" . }}
 					<a class="readmore" href="{{ .RelPermalink }}">Read more ⟶</a>
 				</section>
