@@ -31,10 +31,6 @@ Your GitHub account is used for identity in giscus comments. Please include your
   <button type="submit">Generate proof & submit</button>
 </form>
 
-<div class="callout callout-tip">
-  <strong>Note:</strong> Replace the form action URL with your Worker endpoint. The backend verifies PoW: SHA-256 over (title + body + timestamp + nonce) must meet the required difficulty and freshness window.
-</div>
-
 <script>
 (() => {
   const form = document.querySelector('.submit-form');
