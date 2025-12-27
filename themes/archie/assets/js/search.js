@@ -56,6 +56,20 @@ document.addEventListener('DOMContentLoaded', function () {
         renderResults(results);
     });
 
+    const escapeHtml = (str) => str
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#39;");
+
+    const cleanText = (str) => {
+        return (str || '')
+            .replace(/<[^>]+>/g, ' ') // strip HTML tags defensively
+            .replace(/\s+/g, ' ')
+            .trim();
+    };
+
     function renderResults(results) {
         if (results.length === 0) {
             searchResults.innerHTML = '<p>No results found.</p>';
@@ -65,10 +79,14 @@ document.addEventListener('DOMContentLoaded', function () {
         let html = '<ul class="search-results">';
         
         results.forEach(item => {
+            const summaryText = cleanText(item.summary || item.content || '');
+            const snippetRaw = summaryText.slice(0, summaryInclude);
+            const snippet = snippetRaw.length === summaryInclude ? snippetRaw + '…' : snippetRaw;
+
             html += `
             <li>
                 <h3><a href="${item.permalink}">${item.title}</a></h3>
-                <p>${item.summary ? item.summary.substring(0, summaryInclude) + '...' : ''}</p>
+                <p>${escapeHtml(snippet)}</p>
             </li>`;
         });
         

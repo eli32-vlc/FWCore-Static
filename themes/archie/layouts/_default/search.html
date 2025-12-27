@@ -1,9 +1,9 @@
 {{ define "main" }}
-<div class="content">
+<main class="search-page">
     <h1>{{ .Title }}</h1>
     
-    <div style="margin-bottom: 2rem;">
-        <input type="text" id="search-query" placeholder="Type to search..." style="width: 100%; padding: 0.5rem; font-size: 1rem; border: 1px solid var(--color-border); border-radius: var(--border-radius); background-color: var(--color-background-code); color: var(--color-text);">
+    <div class="search-input">
+        <input type="text" id="search-query" placeholder="Type to search...">
     </div>
 
     <div id="search-results">
@@ -12,5 +12,5 @@
 
     {{ $searchJS := resources.Get "js/search.js" | resources.Minify | resources.Fingerprint }}
     <script src="{{ $searchJS.RelPermalink }}"></script>
-</div>
+</main>
 {{ end }}
