@@ -6,7 +6,7 @@ draft: false
 
 Your GitHub account is used for identity in giscus comments. Please include your GitHub profile link so readers can recognize you. All fields except tags are required. Submissions now require a short proof-of-work (PoW) before sending; it may take ~2 minutes depending on hardware.
 
-<form class="submit-form" method="post" action="https://example.com/submit" accept-charset="UTF-8" data-pow-difficulty="21">
+<form class="submit-form" method="post" action="https://fwcore-backend.lyu63651-8ca.workers.dev/submit" accept-charset="UTF-8" data-pow-difficulty="21">
   <input type="hidden" name="form_type" value="post">
 
   <label for="github-url">GitHub profile URL *</label>
