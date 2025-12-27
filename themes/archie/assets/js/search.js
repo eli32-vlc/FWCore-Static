@@ -62,12 +62,12 @@ document.addEventListener('DOMContentLoaded', function () {
             return;
         }
 
-        let html = '<ul class="post-container" style="flex-direction: column;">';
+        let html = '<ul class="search-results">';
         
         results.forEach(item => {
             html += `
-            <li style="list-style: none; margin-bottom: 1.5rem;">
-                <h3 style="margin-bottom: 0.5rem;"><a href="${item.permalink}">${item.title}</a></h3>
+            <li>
+                <h3><a href="${item.permalink}">${item.title}</a></h3>
                 <p>${item.summary ? item.summary.substring(0, summaryInclude) + '...' : ''}</p>
             </li>`;
         });
