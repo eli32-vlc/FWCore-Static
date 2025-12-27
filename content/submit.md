@@ -78,9 +78,13 @@ Your GitHub account is used for identity in giscus comments. Please include your
     let nonceCounter = BigInt(crypto.getRandomValues(new Uint32Array(1))[0]);
     let attempts = 0;
 
+    const normalizedTitle = titleInput.value.replace(/\r\n|\r|\n/g, "\r\n");
+    const normalizedBody = bodyInput.value.replace(/\r\n|\r|\n/g, "\r\n");
+
     while (true) {
       const nonce = (nonceCounter++).toString(16);
-      const preimage = titleInput.value + bodyInput.value + timestamp + nonce;
+      // Normalize newlines to CRLF to match form submission encoding and server validation.
+      const preimage = normalizedTitle + normalizedBody + timestamp + nonce;
       const hashBuffer = await crypto.subtle.digest('SHA-256', encoder.encode(preimage));
       const bytes = new Uint8Array(hashBuffer);
       const lz = leadingZeroBits(bytes);
