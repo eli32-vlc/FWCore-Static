@@ -6,7 +6,6 @@ draft: false
 tags: ["vless", "gfwmass"]
 author_github: https://github.com/eli32-vlc
 ---
-
 ## What is GFWMass?
 
 GFWMass is a script that automates deploying up to 1,000 links to a single proxy.
