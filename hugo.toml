@@ -36,3 +36,9 @@ theme = 'archie'
   name = "Submit Post"
   url = "/submit/"
   weight = 30
+
+[[menu.main]]
+  identifier = "about"
+  name = "About"
+  url = "/about/"
+  weight = 40
