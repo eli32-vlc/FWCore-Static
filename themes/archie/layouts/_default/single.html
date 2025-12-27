@@ -1,0 +1,59 @@
+{{ define "main" }}
+<main>
+  <article>
+    <div class="post-container">
+      <!-- Main Content -->
+      <div class="post-content">
+        <div class="title">
+          <h1 class="title">
+            {{ .Title }}
+            {{ if and (.Params.tags) (gt (len .Params.tags) 0) }}
+            {{ $firstTag := index .Params.tags 0 }}
+            <span class="tags-inline">
+              <a class="tag-chip" href="{{ "/tags/" | relLangURL }}{{ $firstTag | urlize }}">{{ $firstTag }}</a>
+            </span>
+            {{ end }}
+          </h1>
+          <div class="meta">Posted on {{ dateFormat ":date_medium" .Date }}{{ if .Draft }} <span class="draft-label">DRAFT</span> {{ end }}</div>
+        </div>
+        {{ if isset .Params "tldr" }}
+        <div class="tldr">
+          <strong>tl;dr:</strong>
+          {{ .Params.tldr }}
+        </div>{{ end }}
+        <section class="body">
+          {{ .Content }}
+        </section>
+      </div>
+
+      <!-- TOC -->
+      {{ if and (isset .Params "toc") (.Params.toc) }}
+      <div class="toc">
+        <strong>Table of contents:</strong>
+        {{ .TableOfContents }}
+      </div>
+      {{ end }}
+    </div>
+
+    {{ if eq .Section "posts" }}
+    <div class="giscus">
+      <script src="https://giscus.app/client.js"
+        data-repo="eli32-vlc/fwcore-comments"
+        data-repo-id="R_kgDOQvc57w"
+        data-category="General"
+        data-category-id="DIC_kwDOQvc5784C0RdV"
+        data-mapping="pathname"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="bottom"
+        data-theme="noborder_dark"
+        data-lang="en"
+        crossorigin="anonymous"
+        async>
+      </script>
+    </div>
+    {{ end }}
+  </article>
+</main>
+{{ end }}

@@ -1,0 +1,16 @@
+{{ define "main" }}
+<div class="content">
+    <h1>{{ .Title }}</h1>
+    
+    <div style="margin-bottom: 2rem;">
+        <input type="text" id="search-query" placeholder="Type to search..." style="width: 100%; padding: 0.5rem; font-size: 1rem; border: 1px solid var(--color-border); border-radius: var(--border-radius); background-color: var(--color-background-code); color: var(--color-text);">
+    </div>
+
+    <div id="search-results">
+        <!-- Results will appear here -->
+    </div>
+
+    {{ $searchJS := resources.Get "js/search.js" | resources.Minify | resources.Fingerprint }}
+    <script src="{{ $searchJS.RelPermalink }}"></script>
+</div>
+{{ end }}

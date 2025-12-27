@@ -1,0 +1,38 @@
+baseURL = 'https://example.org/'
+languageCode = 'en-us'
+title = 'FWCore'
+theme = 'archie'
+
+[pagination]
+  pagerSize = 5
+
+[params]
+  mainSections = ["posts"]
+
+
+[outputs]
+  home = ["HTML", "RSS", "JSON"]
+
+[markup]
+  [markup.goldmark]
+    [markup.goldmark.renderer]
+      unsafe = true
+
+
+[[menu.main]]
+  identifier = "search"
+  name = "Search"
+  url = "/search/"
+  weight = 10
+
+[[menu.main]]
+  identifier = "tags"
+  name = "Tags"
+  url = "/tags/"
+  weight = 20
+
+[[menu.main]]
+  identifier = "submit"
+  name = "Submit Post"
+  url = "/submit/"
+  weight = 30
