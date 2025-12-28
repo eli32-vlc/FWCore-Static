@@ -4,9 +4,8 @@
 	<body>
 		<div class="content">
 			{{ partial "head.html" . }}
-			
-			<main class="list">
-				<div class="site-description">
+			<main class="forum-feed">
+				<div class="feed-header">
 					{{- if isset .Site.Params "subtitle" -}}
 					<p>{{ .Site.Params.Subtitle | .Page.RenderString }}</p>
 					{{- end -}}
@@ -15,29 +14,129 @@
 				{{ $pages = sort $pages "Date" "desc" }}
 				{{ $pages = sort $pages "Params.pinned" "desc" }}
 				{{ $paginator := .Paginate (where $pages "Params.hidden" "ne" true) }}
+				<div class="feed-controls">
+					<label class="control-group" for="feed-sort">
+						<span>Sort</span>
+						<select id="feed-sort">
+							<option value="latest" selected>Latest</option>
+							<option value="oldest">Oldest</option>
+							<option value="title-az">Title A–Z</option>
+							<option value="title-za">Title Z–A</option>
+							<option value="read-short">Shortest read</option>
+							<option value="read-long">Longest read</option>
+						</select>
+					</label>
+					<label class="control-group" for="feed-tag">
+						<span>Tag</span>
+						<select id="feed-tag">
+							<option value="all" selected>All</option>
+							{{ range $name, $_ := .Site.Taxonomies.tags }}
+							<option value="{{ $name }}">{{ $name }}</option>
+							{{ end }}
+						</select>
+					</label>
+					<label class="control-group control-inline" for="feed-pinned-first">
+						<input type="checkbox" id="feed-pinned-first" checked>
+						<span>Pinned first</span>
+					</label>
+					<label class="control-group control-inline" for="feed-pinned-only">
+						<input type="checkbox" id="feed-pinned-only">
+						<span>Pinned only</span>
+					</label>
+				</div>
+				<div class="thread-grid">
 				{{ range $paginator.Pages }}
-				<section class="list-item">
-					<h1 class="title">
-						<a href="{{ .RelPermalink }}">{{.Title}}</a>
-						{{ if and (.Params.tags) (gt (len .Params.tags) 0) }}
-						{{ $firstTag := lower (index .Params.tags 0) }}
-						<span class="tags-inline">
-							<a class="tag-chip" href="{{ "/tags/" | relLangURL }}{{ $firstTag | urlize }}">{{ $firstTag }}</a>
-						</span>
-						{{ end }}
-					</h1>
-					<time>
-						{{ dateFormat ":date_medium" .Date }}
-						{{ $gh := .Params.author_github }}
-						{{ if $gh }}
-							{{ $user := replaceRE "^https?://(?:www\\.)?github.com/([^/]+)/?.*$" "$1" $gh }}
-								 · <a href="{{ $gh }}">{{ $user }}</a>
-						{{ end }}
-						{{ if .Draft }} <span class="draft-label">DRAFT</span> {{ end }}
-					</time>
-					<a class="readmore" href="{{ .RelPermalink }}">Read more ⟶</a>
-				</section>
+					{{ $tag := "General" }}
+					{{ if and (.Params.tags) (gt (len .Params.tags) 0) }}
+						{{ $tag = (index .Params.tags 0) }}
+					{{ end }}
+					{{ $authorURL := .Params.author_github }}
+					{{ $authorName := "" }}
+					{{ if $authorURL }}
+						{{ $authorName = replaceRE "^https?://(?:www\\.)?github.com/([^/]+)/?.*$" "$1" $authorURL }}
+					{{ end }}
+					{{ $snippet := cond (isset .Params "tldr") .Params.tldr (.Summary | plainify) }}
+					{{ $snippet = (truncate 160 $snippet) }}
+					<article class="thread-card" data-date="{{ .Date.Unix }}" data-title="{{ .Title | lower }}" data-reading="{{ .ReadingTime }}" data-tags="{{ if .Params.tags }}{{ delimit .Params.tags "," }}{{ end }}" data-pinned="{{ if .Params.pinned }}1{{ else }}0{{ end }}">
+						<a class="thread-card__link" href="{{ .RelPermalink }}">
+							<div class="thread-card__top">
+								<span class="thread-card__tag">{{ $tag }}</span>
+								{{ if .Params.pinned }}<span class="thread-card__pin">Pinned</span>{{ end }}
+							</div>
+							<h2 class="thread-card__title">{{ .Title }}</h2>
+							<p class="thread-card__excerpt">{{ $snippet }}</p>
+							<div class="thread-card__meta">
+								<span>{{ dateFormat ":date_medium" .Date }}</span>
+								<span aria-hidden="true">·</span>
+								<span>{{ .ReadingTime }} min read</span>
+								{{ if $authorName }}
+								<span aria-hidden="true">·</span>
+								<span>{{ $authorName }}</span>
+								{{ end }}
+								{{ if .Draft }}<span class="draft-label">DRAFT</span>{{ end }}
+							</div>
+						</a>
+					</article>
 				{{ end }}
+				</div>
+				<script>
+				(function() {
+				  const container = document.querySelector('.thread-grid');
+				  const cards = Array.from(document.querySelectorAll('.thread-card'));
+				  const sortSelect = document.getElementById('feed-sort');
+				  const tagSelect = document.getElementById('feed-tag');
+				  const pinnedFirst = document.getElementById('feed-pinned-first');
+				  const pinnedOnly = document.getElementById('feed-pinned-only');
+
+				  function matchesTag(card, tag) {
+				    if (tag === 'all') return true;
+				    const tags = (card.dataset.tags || '').split(',').filter(Boolean);
+				    return tags.some(t => t.toLowerCase() === tag.toLowerCase());
+				  }
+
+				  function apply() {
+				    let list = cards.slice();
+				    const tag = tagSelect ? tagSelect.value : 'all';
+				    const sort = sortSelect ? sortSelect.value : 'latest';
+				    const pinOnly = pinnedOnly && pinnedOnly.checked;
+				    const pinFirst = pinnedFirst && pinnedFirst.checked;
+
+				    list = list.filter(card => {
+				      if (pinOnly && card.dataset.pinned !== '1') return false;
+				      return matchesTag(card, tag);
+				    });
+
+				    const sorters = {
+				      latest: (a, b) => Number(b.dataset.date) - Number(a.dataset.date),
+				      oldest: (a, b) => Number(a.dataset.date) - Number(b.dataset.date),
+				      'title-az': (a, b) => a.dataset.title.localeCompare(b.dataset.title),
+				      'title-za': (a, b) => b.dataset.title.localeCompare(a.dataset.title),
+				      'read-short': (a, b) => Number(a.dataset.reading) - Number(b.dataset.reading),
+				      'read-long': (a, b) => Number(b.dataset.reading) - Number(a.dataset.reading),
+				    };
+
+				    const sorter = sorters[sort] || sorters.latest;
+				    list.sort((a, b) => {
+				      if (pinFirst) {
+				        const pinDiff = Number(b.dataset.pinned) - Number(a.dataset.pinned);
+				        if (pinDiff !== 0) return pinDiff;
+				      }
+				      return sorter(a, b);
+				    });
+
+				    const frag = document.createDocumentFragment();
+				    list.forEach(node => frag.appendChild(node));
+				    container.innerHTML = '';
+				    container.appendChild(frag);
+				  }
+
+				  [sortSelect, tagSelect, pinnedFirst, pinnedOnly].forEach(el => {
+				    if (el) el.addEventListener('change', apply);
+				  });
+
+				  apply();
+				})();
+				</script>
 				{{ template "partials/paginator.html" . }}
 			</main>
 			{{ partial "footer.html" . }}

@@ -1,38 +1,38 @@
 /* Dark theme overrides */
 body {
   color: var(--color-text-dark, #ffffff);
-  background-color: var(--color-background-dark, #202124);
+  background-color: var(--color-background-dark, #0b1220);
 }
 
 ::-moz-selection {
-  background: var(--color-primary-dark, #50fa7b);
-  color: #000000;
+  background: var(--color-primary-dark, #ff5c28);
+  color: #0b1220;
   text-shadow: none;
 }
 
 ::selection {
-  background: var(--color-primary-dark, #50fa7b);
-  color: #000000;
+  background: var(--color-primary-dark, #ff5c28);
+  color: #0b1220;
   text-shadow: none;
 }
 
 hr {
-  border-block-start: 3px dotted var(--color-border-dark, #0066ff);
+  border-block-start: 3px dotted var(--color-border-dark, #3b4252);
 }
 
 code {
-  background-color: var(--color-background-code-dark, #3a3a3a);
-  color: var(--color-text-dark, #ffffff);
+  background-color: var(--color-background-code-dark, #111827);
+  color: var(--color-text-dark, #e5e7eb);
 }
 
 pre {
-  background-color: var(--color-background-pre-dark, #272822);
-  border-color: var(--color-border-dark, #0066ff);
+  background-color: var(--color-background-pre-dark, #0f172a);
+  border-color: var(--color-border-dark, #3b4252);
 }
 
 blockquote {
-  border-color: var(--color-border-dark, #0066ff);
-  color: var(--color-text-muted-dark, #dddddd);
+  border-color: var(--color-border-dark, #3b4252);
+  color: var(--color-text-muted-dark, #9ca3af);
 }
 
 /* Headings */
@@ -42,33 +42,33 @@ h3,
 h4,
 h5,
 h6 {
-  color: var(--color-text-muted-dark, #dddddd);
+  color: var(--color-text-dark, #e5e7eb);
 }
 
-h1::before { color: var(--color-primary-dark, #50fa7b); }
-h2::before { color: var(--color-primary-dark, #50fa7b); }
-h3::before { color: var(--color-primary-dark, #50fa7b); }
-h4::before { color: var(--color-primary-dark, #50fa7b); }
-h5::before { color: var(--color-primary-dark, #50fa7b); }
-h6::before { color: var(--color-primary-dark, #50fa7b); }
+h1::before { color: var(--color-primary-dark, #ff5c28); }
+h2::before { color: var(--color-primary-dark, #ff5c28); }
+h3::before { color: var(--color-primary-dark, #ff5c28); }
+h4::before { color: var(--color-primary-dark, #ff5c28); }
+h5::before { color: var(--color-primary-dark, #ff5c28); }
+h6::before { color: var(--color-primary-dark, #ff5c28); }
 
 .toc {
-  background-color: var(--color-background-toc-dark, #272822);
-  color: var(--color-text-dark, #ffffff);
-  border-color: var(--color-border-dark, #0066ff);
+  background-color: var(--color-background-toc-dark, #0f172a);
+  color: var(--color-text-dark, #e5e7eb);
+  border-color: var(--color-border-dark, #3b4252);
 }
 
 /* Links */
 a {
-  border-block-end: 3px solid var(--color-primary-dark, #50fa7b);
+  border-block-end: 3px solid var(--color-primary-dark, #ff5c28);
   color: inherit;
 }
 
 a:hover,
 a:focus {
-  background-color: var(--color-primary-dark, #50fa7b);
-  color: #000000;
-  outline-color: var(--color-primary-dark, #50fa7b);
+  background-color: transparent;
+  color: inherit;
+  outline-color: transparent;
 }
 
 .site-description a {
@@ -82,27 +82,27 @@ a:focus {
 
 /* Tags */
 .tags a {
-  border-block-end: 3px solid var(--color-primary-dark, #50fa7b);
+  border-block-end: 3px solid var(--color-primary-dark, #ff5c28);
 }
 
 .tags a:hover,
 .tags a:focus {
-  background-color: var(--color-primary-dark, #50fa7b);
-  color: #000000;
+  background-color: var(--color-primary-dark, #ff5c28);
+  color: #0b1220;
 }
 
 /* Tag chips in dark mode */
 .tag-chip {
-  border-color: var(--color-primary-dark, #50fa7b);
-  color: var(--color-primary-dark, #50fa7b);
-  background-color: rgba(80, 250, 123, 0.14);
+  border-color: var(--color-primary-dark, #ff5c28);
+  color: var(--color-primary-dark, #ff5c28);
+  background-color: rgba(255, 92, 40, 0.14);
 }
 
 .tag-chip:hover,
 .tag-chip:focus {
-  background-color: var(--color-primary-dark, #50fa7b);
-  color: #000000;
-  border-color: var(--color-primary-dark, #50fa7b);
+  background-color: rgba(255, 92, 40, 0.14);
+  color: var(--color-primary-dark, #ff5c28);
+  border-color: var(--color-primary-dark, #ff5c28);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.28);
 }
 
@@ -113,7 +113,7 @@ a:focus {
 
 .header nav,
 footer {
-  border-color: var(--color-border-dark, #0066ff);
+  border-color: var(--color-border-dark, #3b4252);
 }
 
 .highlight {

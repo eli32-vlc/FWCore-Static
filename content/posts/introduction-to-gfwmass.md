@@ -108,13 +108,13 @@ sudo certbot certonly --manual --preferred-challenges dns -d example.com -d "*.e
 ```
 This generates a wildcard SSL certificate for your domain. Follow the prompts to create a DNS TXT record for verification. Replace example.com with your actual domain.
 
-## Move the certificates to the Caddy directory
+## Move the certificates to the Caddy directory and fix permission
 
 ```bash
 sudo install -d /etc/ssl/gfwmass
 sudo cp /etc/letsencrypt/live/example.com/fullchain.pem /etc/ssl/gfwmass/fullchain.pem
 sudo cp /etc/letsencrypt/live/example.com/privkey.pem /etc/ssl/gfwmass/privkey.pem
-sudo chmod 600 /etc/ssl/gfwmass/fullchain.pem /etc/ssl/gfwmass/privkey.pem
+sudo chmod 644 /etc/ssl/gfwmass/fullchain.pem /etc/ssl/gfwmass/privkey.pem
 ```
 Replace example.com with your actual domain.
 
