@@ -22,5 +22,3 @@ Quality and moderation tips:
 - Tags: 2–4 relevant tags, lowercase.
 - Links: prefer primary sources; add brief context for each link.
 - Sensitive info: do not include secrets, personal data, or private logs.
-
-If your post is declined, you’ll be notified through the moderation flow; you can revise and resubmit.
